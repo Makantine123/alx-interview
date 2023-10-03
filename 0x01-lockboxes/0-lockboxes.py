@@ -8,8 +8,8 @@ def canUnlockAll(boxes):
     """
     Function method that determines if all the boxes can be opened
     """
-    n = len(boxes)
-    visited = [False] * n
+    num = len(boxes)
+    visited = [False] * num
     visited[0] = True
     stack = [0]
 
