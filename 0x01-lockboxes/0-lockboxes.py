@@ -8,16 +8,14 @@ def canUnlockAll(boxes):
     """
     Function method that determines if all the boxes can be opened
     """
-    num = len(boxes)
-    visited = [False] * num
-    visited[0] = True
-    stack = [0]
+    num_of_boxes = len(boxes)
+    unlocke_boxes = [False] * num_of_boxes
+    unlocke_boxes[0] = True
+    keys = boxes[0]
 
-    while stack:
-        box = stack.pop()
-        for key in boxes[box]:
-            if not visited[key]:
-                visited[key] = True
-                stack.append(key)
+    for key in keys:
+        if key < num_of_boxes and not unlocke_boxes[key]:
+            unlocke_boxes[key] = True
+            keys.extend(boxes[key])
 
-    return all(visited)
+    return all(unlocke_boxes)
