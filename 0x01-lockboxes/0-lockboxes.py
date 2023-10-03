@@ -1,9 +1,13 @@
 #!/usr/bin/python3
-"""Unlock boxes Modules"""
+"""
+Unlock boxes Modules
+"""
 
 
 def canUnlockAll(boxes):
-    """Function method that determines if all the boxes can be opened"""
+    """
+    Function method that determines if all the boxes can be opened
+    """
     n = len(boxes)
     visited = [False] * n
     visited[0] = True
@@ -17,4 +21,3 @@ def canUnlockAll(boxes):
                 stack.append(key)
 
     return all(visited)
-
