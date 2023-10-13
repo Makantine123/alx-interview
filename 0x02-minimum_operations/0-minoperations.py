@@ -9,7 +9,7 @@ def minOperations(n):
     Minimum Operations function
     """
     if n <= 1:
-        return n
+        return 0
 
     for i in range(2, n):
         if n % i == 0:
