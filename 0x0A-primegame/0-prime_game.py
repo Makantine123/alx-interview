@@ -40,8 +40,8 @@ def isWinner(x, nums):
     maria_wins = 0
     ben_wins = 0
 
-    for n in nums:
-        winner = play_game(n)
+    for i in range(x):
+        winner = play_game(nums[i])
         if winner == "Maria":
             maria_wins += 1
         elif winner == "Ben":
@@ -52,4 +52,3 @@ def isWinner(x, nums):
     if ben_wins > maria_wins:
         return "Ben"
     return None
-
