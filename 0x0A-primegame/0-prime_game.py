@@ -16,6 +16,7 @@ def isWinner(x, nums):
     """
 
     def is_prime(num):
+        """Check if num is prime"""
         if num < 2:
             return False
         for i in range(2, int(num ** 0.5) + 1):
@@ -24,6 +25,7 @@ def isWinner(x, nums):
         return True
 
     def get_primes(num):
+        """Returns array of primes"""
         primes = []
         for i in range(1, num + 1):
             if is_prime(i):
@@ -31,6 +33,7 @@ def isWinner(x, nums):
         return primes
 
     def play_game(n):
+        """Plays game n times"""
         primes = get_primes(n)
         num_primes = len(primes)
         if num_primes % 2 == 0:
