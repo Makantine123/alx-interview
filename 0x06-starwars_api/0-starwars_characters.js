@@ -3,7 +3,7 @@
 
 const request = require('request');
 
-function getMovieCharacters(movieId) {
+function getMovieCharacters (movieId) {
   return new Promise((resolve, reject) => {
     const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
 
