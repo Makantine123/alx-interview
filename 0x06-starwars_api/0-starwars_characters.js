@@ -1,27 +1,46 @@
 #!/usr/bin/node
+/* Star Wars API */
 
-const axios = require('axios');
-const movieID = process.argv[2];
+const request = require('request');
 
-if (!movieID || isNaN(movieID)) {
-  console.log('Please provide a valid movie ID as an argument');
-  process.emit(1);
+function getMovieCharacters(movieId) {
+    return new Promise((resolve, reject) => {
+        const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+
+        request(url, (error, response, body) => {
+            if (error || response.statusCode !== 200) {
+                reject(error || new Error(`Failed to fetch data from API. Status code: ${response.statusCode}`));
+                return;
+            }
+
+            const film = JSON.parse(body);
+            const characterPromises = film.characters.map(characterUrl => {
+                return new Promise((resolve, reject) => {
+                    request(characterUrl, (error, response, body) => {
+                        if (error || response.statusCode !== 200) {
+                            reject(error || new Error(`Failed to fetch character data. Status code: ${response.statusCode}`));
+                            return;
+                        }
+
+                        resolve(JSON.parse(body).name);
+                    });
+                });
+            });
+
+            Promise.all(characterPromises)
+                .then(characters => resolve(characters))
+                .catch(reject);
+        });
+    });
 }
 
-const base_url = 'https://swapi-api.alx-tools.com/api';
-const films_endpoint = '/films/'
+if (process.argv.length !== 3) {
+    console.error('Usage: node script.js <movie_id>');
+    process.exit(1);
+}
 
-axios.get (`${base_url}${films_endpoint}${movieID}`)
-  .then(response => {
-    const characters = response.data.characters;
-    return Promise.all(characters.map(characterURL => axios.get(characterURL)));
-  })
-  .then(charactersData => {
-    const characterName = charactersData.map(character => character.data.name);
-    characterName.forEach(name => 
-      console.log(name)
-      );
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error.message);
-  });
+const movieId = process.argv[2];
+getMovieCharacters(movieId)
+    .then(characters => characters.forEach(character => console.log(character)))
+    .catch(error => console.error('Error:', error.message));
+
