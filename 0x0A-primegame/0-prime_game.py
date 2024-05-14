@@ -3,45 +3,38 @@
 
 
 def isWinner(x, nums):
-    """
-    Function is a game
-    params:
-        x: Number of rounds
-        nums: Array of n (integers)
-    returns:
-        Name of the player that won most rounds
-        None if a winner cannot be determined
-    assumptions:
-        n and x will not be larger than 10000
-    """
-    def sieve_of_eratosthenes(n):
-        """Returns an array of prime numbers up to n."""
-        sieve = [True] * (n+1)
-        sieve[0], sieve[1] = False, False
+    """Prime Numbers selection game"""
+
+    def SieveOfEratosthenes(n):
+        """Returns a list of prime numbers up to interger n"""
+        prime = [True for i in range(n + 1)]
         p = 2
-        while p*p <= n:
-            if sieve[p]:
-                for i in range(p*p, n+1, p):
-                    sieve[i] = False
+        while (p * p <= n):
+            if (prime[p] is True):
+                for i in range(p * p, n + 1, p):
+                    prime[i] = False
             p += 1
-        primes = [i for i in range(n+1) if sieve[i]]
-        return primes
 
-    primes = sieve_of_eratosthenes(max(nums))
-    primes_count = len(primes)
+        primelist = []
+        for p in range(2, n + 1):
+            if prime[p]:
+                primelist.append(p)
+        return primelist
 
-    maria_wins = 0
-    ben_wins = 0
-
-    for n in nums:
-        if primes_count % 2 == 0:
-            ben_wins += 1
+    mariaWins = 0
+    benWins = 0
+    for k in range(x):
+        n = nums[k]
+        primelist = SieveOfEratosthenes(n)
+        size = len(primelist)
+        if (size % 2 == 0):
+            benWins += 1
         else:
-            maria_wins += 1
+            mariaWins += 1
 
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif maria_wins < ben_wins:
+    if benWins > mariaWins:
         return "Ben"
-    else:
-        return None
+    elif mariaWins > benWins:
+        return "Maria"
+
+    return None
